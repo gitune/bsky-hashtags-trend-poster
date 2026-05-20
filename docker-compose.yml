@@ -1,0 +1,14 @@
+services:
+  hashtags-trend-poster:
+    build: .
+    image: hashtags-trend-poster
+    container_name: hashtags-trend-poster
+    restart: no
+    volumes:
+      - ./work:/app/work
+    env_file: env.txt
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
