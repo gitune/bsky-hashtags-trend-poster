@@ -173,35 +173,17 @@ func makeFacets(text string) []*bsky.RichtextFacet {
 	matches := hashTagsRegexp.FindAllIndex(bytes, -1)
 	facets := make([]*bsky.RichtextFacet, 0, len(matches))
 	for _, match := range matches {
-		// Max length of Tag is 64 bytes.
-		var m0, m1 int
-		if match[1] - match[0] > 65 { // including #
-			word := string(text[match[0] + 1:match[1]])
-			var t string
-			for _, w := range []rune(word) {
-				if len([]byte(t + string(w))) > 64 {
-					break
-				}
-				t = t + string(w)
-			}
-			l := len([]byte(t))
-			m0 = match[0]
-			m1 = match[0] + l + 1
-		} else {
-			m0 = match[0]
-			m1 = match[1]
-		}
 		facets = append(facets, &bsky.RichtextFacet{
 			Features: []*bsky.RichtextFacet_Features_Elem{
 				&bsky.RichtextFacet_Features_Elem{
 					RichtextFacet_Tag: &bsky.RichtextFacet_Tag{
-						Tag: string(text[m0 + 1:m1]),
+						Tag: string(bytes[match[0] + 1:match[1]]),
 					},
 				},
 			},
 			Index: &bsky.RichtextFacet_ByteSlice{
-				ByteStart: int64(m0),
-				ByteEnd: int64(m1),
+				ByteStart: int64(match[0]),
+				ByteEnd: int64(match[1]),
 			},
 		})
 	}
