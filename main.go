@@ -289,7 +289,7 @@ func (h *handler) cleanCountPost(ctx context.Context) {
 				ri := []rune(i)
 				rj := []rune(j)
 				if len(ri) == len(rj) {
-					return -strings.Compare(i, j)
+					return strings.Compare(i, j)
 				} else {
 					return -cmp.Compare(len(ri), len(rj))
 				}
