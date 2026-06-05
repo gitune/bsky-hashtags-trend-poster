@@ -91,7 +91,7 @@ func (ll *LinkedList) Remove(node *Node) {
 	}
 }
 
-// Make subscript number string ===========
+// Subscript number string map ============
 var /* constant */ mapsub = map[rune]string{
 	'0': "₀",
 	'1': "₁",
@@ -105,11 +105,26 @@ var /* constant */ mapsub = map[rune]string{
 	'9': "₉",
 }
 
-func makeSubNum(i int) string {
+// Monospace number string map ============
+var /* constant */ mapmono = map[rune]string{
+	'0': "𝟶",
+	'1': "𝟷",
+	'2': "𝟸",
+	'3': "𝟹",
+	'4': "𝟺",
+	'5': "𝟻",
+	'6': "𝟼",
+	'7': "𝟽",
+	'8': "𝟾",
+	'9': "𝟿",
+}
+
+// Make various number string =============
+func makeVarNum(i int, m map[rune]string) string {
 	src := fmt.Sprintf("%d", i)
 	var b strings.Builder
 	for _, d := range []rune(src) {
-		b.WriteString(mapsub[d])
+		b.WriteString(m[d])
 	}
 	return b.String()
 }
@@ -304,7 +319,7 @@ func (h *handler) cleanCountPost(ctx context.Context) {
 		var err error
 		for i, k := range sortedTags {
 			rank[k] = i
-			w := fmt.Sprintf("%s%d. %s %s", h.getTrend(k, i), i + 1, dispTags[k], makeSubNum(c[k]))
+			w := fmt.Sprintf("%s%s. %s %s", h.getTrend(k, i), makeVarNum(i + 1, mapmono), dispTags[k], makeVarNum(c[k], mapsub))
 			if (len([]rune(t)) + len([]rune(w))) >= maxLength {
 				log.Printf("%s", t)
 				puri, pcid, err = h.sendPost(ctx, t, ruri, rcid, puri, pcid)
