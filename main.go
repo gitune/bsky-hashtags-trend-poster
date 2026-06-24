@@ -380,9 +380,9 @@ func (h *handler) saveLastRank(rank map[string]int) {
 func main() {
 	// command-line flags and defaults
 	jetstreamUrl := *flag.String("jsUrl", "wss://jetstream2.us-west.bsky.network/subscribe", "Bluesky Jetstream URL")
-	numOfPost := *flag.Int("numOfPost", 3, "Number of posts once")
-	duration := time.Duration(*flag.Int("periodSec", 7200, "Measurement period in seconds")) * time.Second
-	postInterval := time.Duration(*flag.Int("intervalSec", 900, "Post interval in seconds")) * time.Second
+	numOfPost := *flag.Int("numOfPost", 2, "Number of posts once")
+	duration := time.Duration(*flag.Int("periodSec", 10800, "Measurement period in seconds")) * time.Second
+	postInterval := time.Duration(*flag.Int("intervalSec", 1800, "Post interval in seconds")) * time.Second
 	saveDir := *flag.String("saveDir", "./work", "Directory to save session info")
 	flag.Parse()
 
